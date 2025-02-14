@@ -17,24 +17,24 @@ class NotificationManager():
     def send(self,) -> None:
         res = query_status(self.__location, self.__number, self.__passport_number, self.__surname, self.__captchaHandle)
 
-        if res['status'] == "Refused":
-            import os,pytz,datetime
-            try:
-                TIMEZONE = os.environ["TIMEZONE"]
-                localTimeZone = pytz.timezone(TIMEZONE)
-                localTime = datetime.datetime.now(localTimeZone)
-            except pytz.exceptions.UnknownTimeZoneError:
-                print("UNKNOWN TIMEZONE Error, use default")
-                localTime = datetime.datetime.now()
-            except KeyError:
-                print("TIMEZONE Error")
-                localTime = datetime.datetime.now()
+        # if res['status'] == "Refused":
+        #     import os,pytz,datetime
+        #     try:
+        #         TIMEZONE = os.environ["TIMEZONE"]
+        #         localTimeZone = pytz.timezone(TIMEZONE)
+        #         localTime = datetime.datetime.now(localTimeZone)
+        #     except pytz.exceptions.UnknownTimeZoneError:
+        #         print("UNKNOWN TIMEZONE Error, use default")
+        #         localTime = datetime.datetime.now()
+        #     except KeyError:
+        #         print("TIMEZONE Error")
+        #         localTime = datetime.datetime.now()
 
-            ignore_dnd = True
-            if not ignore_dnd:
-                if localTime.hour < 8 or localTime.hour > 22:
-                    print("In Manager, no disturbing time")
-                    return
+        #     if localTime.hour < 8 or localTime.hour > 22:
+        #         print("In Manager, no disturbing time")
+        #         return
 
-        for notificationHandle in self.__handleList:
-            notificationHandle.send(res)
+        # do not send updates until first change occurs
+        if res['case_last_updated'] != '21-Feb-2024':
+            for notificationHandle in self.__handleList:
+                notificationHandle.send(res)
