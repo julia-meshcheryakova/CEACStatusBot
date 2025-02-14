@@ -36,5 +36,8 @@ class NotificationManager():
 
         # do not send updates until first change occurs
         if res['case_last_updated'] != '21-Feb-2024':
+            print("sending notifications")
             for notificationHandle in self.__handleList:
                 notificationHandle.send(res)
+        else:
+            print("no updates after initial submission")
