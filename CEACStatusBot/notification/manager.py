@@ -30,5 +30,4 @@ class NotificationManager():
             for notificationHandle in self.__handleList:
                 notificationHandle.send(res)
         else:
-            print("no updates after initial submission")
-
+            print(f"no updates after known date (Last known date: {last_known_date})")
