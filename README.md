@@ -1,24 +1,26 @@
 # CEACStatusBot🤖
 
 [查看中文文档](README.Chinese.md)
- 
+
 automatically check your U.S. visa application status in [CEAC](https://ceac.state.gov/CEACStatTracker/Status.aspx?App=NIV) and notice you instantly!
 
 ## Usage
 
-You can deploy it to your own machine, but it is highly recomanded to use Github Actions. 
+You can deploy it to your own machine, but it is highly recomanded to use Github Actions.
 
 ### Environment Variables
 
 - LOCATION: the location code where you applied for your visa. To find the corresponding code for the embassy, please refer to [this table](LOCATION.md).
 
-- NUMBER: your Application ID or Case Number help icon (e.g., AA0020AKAX or 2012118 345 0001) 
+- NUMBER: your Application ID or Case Number help icon (e.g., AA0020AKAX or 2012118 345 0001)
 
 - PASSPORT_NUMBER: your passport number
 
 - SURNAME: first 5 Letters of surname
 
 - TIMEZONE: optional, set your timezone to avoid disturbing during sleep. :-) Some example: `Asia/Shanghai` `America/New_York`
+
+- LAST_KNOWN_DATE: optional, last know date of an update in format like '03-Apr-2025'
 
 #### Notification by Email
 

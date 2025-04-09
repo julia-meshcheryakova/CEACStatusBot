@@ -26,7 +26,7 @@ class NotificationManager():
 
         # Compare dates instead of strings
         if not last_known_date or case_updated_date > last_known_date:
-            print("sending notifications")
+            print(f"sending notifications (Case updated {case_updated_date} > {last_known_date})")
             for notificationHandle in self.__handleList:
                 notificationHandle.send(res)
         else:
