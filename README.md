@@ -46,7 +46,7 @@ Create a Telegram bot and get the info below according to [this tutorial](https:
 
 ### Github Actions
 
-1. folk this repo
+1. fork this repo
 
 2. set your Environment Variables in `Github -> Settings -> Secrets and variables -> Actions -> New repository secret`
 ![image](docs/github.new.secret.png)
