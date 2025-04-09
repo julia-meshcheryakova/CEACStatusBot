@@ -1,6 +1,8 @@
 from .handle import NotificationHandle
 from CEACStatusBot.request import query_status
-from CEACStatusBot.captcha import CaptchaHandle,OnnxCaptchaHandle
+from CEACStatusBot.captcha import CaptchaHandle, OnnxCaptchaHandle
+import os
+import datetime
 
 class NotificationManager():
     def __init__(self,location:str,number:str,passport_number:str,surname:str,captchaHandle:CaptchaHandle=OnnxCaptchaHandle("captcha.onnx")) -> None:
@@ -17,27 +19,16 @@ class NotificationManager():
     def send(self,) -> None:
         res = query_status(self.__location, self.__number, self.__passport_number, self.__surname, self.__captchaHandle)
 
-        # if res['status'] == "Refused":
-        #     import os,pytz,datetime
-        #     try:
-        #         TIMEZONE = os.environ["TIMEZONE"]
-        #         localTimeZone = pytz.timezone(TIMEZONE)
-        #         localTime = datetime.datetime.now(localTimeZone)
-        #     except pytz.exceptions.UnknownTimeZoneError:
-        #         print("UNKNOWN TIMEZONE Error, use default")
-        #         localTime = datetime.datetime.now()
-        #     except KeyError:
-        #         print("TIMEZONE Error")
-        #         localTime = datetime.datetime.now()
+        last_known_date_str = os.environ.get("LAST_KNOWN_DATE")
+        last_known_date = datetime.datetime.strptime(last_known_date_str, "%d-%b-%Y").date() if last_known_date_str else None
 
-        #     if localTime.hour < 8 or localTime.hour > 22:
-        #         print("In Manager, no disturbing time")
-        #         return
+        case_updated_date = datetime.datetime.strptime(res['case_last_updated'], "%d-%b-%Y").date()
 
-        # do not send updates until first change occurs
-        if res['case_last_updated'] != '21-Feb-2024':
+        # Compare dates instead of strings
+        if not last_known_date or case_updated_date > last_known_date:
             print("sending notifications")
             for notificationHandle in self.__handleList:
                 notificationHandle.send(res)
         else:
             print("no updates after initial submission")
+
